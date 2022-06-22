@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Passport {
+  id       Int       @id @default(autoincrement())
+  citizenship String
+  passport String
+  passport_seria String
+  passport_number String
+  passport_place String
+  passport_date String
+  firstname String
+  name String
+  lastname String
+  birthday String
+  birthday_place String
+  phone String
+  gender String
+  adress_register String
+  adress_fact String
+  email String
+  language String
+  specialization_first String
+  specialization_second String
+  form_education String
+  form_education_pay String
+  education_complete_name String
+  education_complete_year String
+  education_complete_category String
+  education_complete_document String
+  education_complete_seria String
+  education_complete_number String
+  education_complete_date String
+  education_complete_type String
+  medal String
+  olympiad String
+  work_stage_year String
+  work_stage_month String
+  work_place_post String
+  house String
+  snils String
+  inn String
+  education_spo String
+  parent_mother_initial String
+  parent_mother_work String
+  parent_mother_work_post String
+  parent_mother_phone String
+  parent_father_initial String
+  parent_father_work String
+  parent_father_work_post String
+  parent_father_phone String
+  hobby String
+  army String
+  sport String
+  sport_level String
+  success String
+  tree String @default("")
+  four String @default("")
+  five String @default("")
+}
