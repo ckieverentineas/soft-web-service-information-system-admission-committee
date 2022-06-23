@@ -8,7 +8,6 @@ const prisma = new PrismaClient();
 export default async function handler(req: any, res: any) {
     if (req.method === 'POST') {
         const { id } = req.body
-        console.log(req.body)
         const user = await prisma.passport.findFirst({
             where: {
                 id
@@ -73,6 +72,7 @@ export default async function handler(req: any, res: any) {
         },
         cmdDelimiter: ['{', '}'],
         });
+        console.log(`Создание документа... ./public/files/${id}_${user?.firstname}_${user?.name}_${user?.lastname}.docx`)
         await fs.writeFile(`./public/files/${id}_${user?.firstname}_${user?.name}_${user?.lastname}.docx`, buffer)
         await res.status(200).json({link: `./public/temple/${id}_${user?.firstname}_${user?.name}_${user?.lastname}.docx`})
     }

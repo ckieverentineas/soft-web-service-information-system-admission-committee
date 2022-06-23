@@ -10,13 +10,12 @@ const prisma = new PrismaClient();
 export default async function handler(req: any, res: any) {
     if (req.method === 'POST') {
         let { specialization_first } = req.body
-        console.log(req.body)
         const data = await prisma.passport.findMany({
             where: {
                 specialization_first
             }
         })
-        console.log(data)
+        console.log(`Применен фильтр сортировки ${specialization_first}`)
         res.status(200).json(data)
     }
     prisma.$disconnect()

@@ -10,7 +10,6 @@ const prisma = new PrismaClient();
 export default async function handler(req: any, res: any) {
     if (req.method === 'POST') {
         let { specialization_first, form_education, education_complete_category } = req.body
-        console.log(req.body)
         const data = await prisma.passport.findMany({
             where: {
                 specialization_first,
@@ -58,7 +57,7 @@ export default async function handler(req: any, res: any) {
 
         /* fix headers */
         xlsx.utils.sheet_add_aoa(WorkSheet, [["№ п/п", "ФИО абитуриента", "ср. балл", "копия/оригинал"]], { origin: "A1" });
-
+        console.log(`Создание таблицы... ./public/tables/${specialization_first}_${form_education}_${education_complete_category}.xlsx`)
         /* create an XLSX file and try to save to Presidents.xlsx */
         const sela = xlsx.writeFile(WorkBook, `./public/tables/${specialization_first}_${form_education}_${education_complete_category}.xlsx`);
         await res.status(200).json({link: `./public/tables/${specialization_first}_${form_education}_${education_complete_category}.xlsx`})

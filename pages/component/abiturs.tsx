@@ -111,6 +111,7 @@ export default function Abiturs() {
         setShow(true)
         console.log("worked"+id)
         await componentDidMount()
+        setData([''])
     }
     const ahandleSubmit = async () => {
         const val = document.getElementById('filters')?.value
