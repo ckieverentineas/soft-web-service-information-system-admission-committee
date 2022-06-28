@@ -85,6 +85,7 @@ const Admin: NextPage = () => {
                             <option value='Продавец, контролёр-кассир'>Продавец, контролёр-кассир</option>
                             <option value='Мастер контрольно-измерительных приборов и автоматики'>Мастер контрольно-измерительных приборов и автоматики</option>
                             <option value='Лаборант-эколог'>Лаборант-эколог</option>
+                            <option value='Наладчик компьютерных сетей'>Наладчик компьютерных сетей</option>
                         </select>
                         <label className={styles.label}>Форма обучения:</label> 
                         <select name="form_education" id="filtersosoch" onChange={ahandleSubmit}>

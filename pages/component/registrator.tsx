@@ -212,6 +212,7 @@ export default function Registrator() {
                             <option value='Продавец, контролёр-кассир'>Продавец, контролёр-кассир</option>
                             <option value='Мастер контрольно-измерительных приборов и автоматики'>Мастер контрольно-измерительных приборов и автоматики</option>
                             <option value='Лаборант-эколог'>Лаборант-эколог</option>
+                            <option value='Наладчик компьютерных сетей'>Наладчик компьютерных сетей</option>
                         </select>
                         <label className={styles.label}>Резервная специальность:</label> 
                         <select name="specialization_second">
@@ -231,6 +232,7 @@ export default function Registrator() {
                             <option value='Продавец, контролёр-кассир'>Продавец, контролёр-кассир</option>
                             <option value='Мастер контрольно-измерительных приборов и автоматики'>Мастер контрольно-измерительных приборов и автоматики</option>
                             <option value='Лаборант-эколог'>Лаборант-эколог</option>
+                            <option value='Наладчик компьютерных сетей'>Наладчик компьютерных сетей</option>
                         </select>
                     </li>
                     <fieldset>
