@@ -55,6 +55,18 @@ const Admin: NextPage = () => {
         console.log(datas)
         console.log(specialization_first)
     }
+    async function GenAll() {
+        // GET request using fetch with async/await
+        const response = await fetch('/api/xlsxall', {
+            body: JSON.stringify({status: 'request'}),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'POST'
+        })
+        const datas = await response.json();
+        console.log(datas)
+    }
     return (
         <div className={styles.container}>
         <Head>
@@ -95,7 +107,11 @@ const Admin: NextPage = () => {
                             <a target="_blank" href={`./tables/${specialization_first}.xlsx`} download>
                                 <Link href={`./tables/${specialization_first}.xlsx`} target="_blank">
                                 <button>Скачать список группы</button></Link></a>
+                                <a target="_blank" href={`./tables/full.xlsx`} download>
+                                <Link href={`./tables/full.xlsx`} target="_blank">
+                                <button onClick={GenAll}>Отчет по всем группам</button></Link></a>
             <button onClick={Admin}>На главную</button><br/>
+            
             <label className={styles.label}>Специальность:</label> 
                         <select name="specialization_first" id="filtersosmod" onChange={ahandleSubmitmod}>
                             <option value='Право и организация социального обеспечения'>Право и организация социального обеспечения</option>
