@@ -64,6 +64,7 @@ const Admin: NextPage = () => {
             },
             method: 'POST'
         })
+        alert('Подтвердите получение дампа данных абитуриентов')
         const datas = await response.json();
         console.log(datas)
     }
@@ -107,10 +108,12 @@ const Admin: NextPage = () => {
                             <a target="_blank" href={`./tables/${specialization_first}.xlsx`} download>
                                 <Link href={`./tables/${specialization_first}.xlsx`} target="_blank">
                                 <button>Скачать список группы</button></Link></a>
+            <button onClick={Admin}>На главную</button><br/>
+            <label>Нажмите вначале Генерация отчета, и только затем Отчет по всем группам!</label>
+            <button className={styles.bita} onClick={GenAll}>Генерация отчета</button>
                                 <a target="_blank" href={`./tables/full.xlsx`} download>
                                 <Link href={`./tables/full.xlsx`} target="_blank">
-                                <button onClick={GenAll}>Отчет по всем группам</button></Link></a>
-            <button onClick={Admin}>На главную</button><br/>
+                                <button className={styles.bita}>Отчет по всем группам</button></Link></a><br/>
             
             <label className={styles.label}>Специальность:</label> 
                         <select name="specialization_first" id="filtersosmod" onChange={ahandleSubmitmod}>
