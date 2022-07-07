@@ -67,7 +67,7 @@ export default function Abiturs() {
         // GET request using fetch with async/await
         const response = await fetch('/api/abbitur');
         const datas = await response.json();
-        console.log(datas)
+        console.log("Данные об абитуриентах получены")
         setDataMan(datas)
     }
     async function getAb(id: any) {
@@ -80,7 +80,7 @@ export default function Abiturs() {
             method: 'POST'
         })
         const datas = await response.json();
-        console.log(datas)
+        console.log(`Данные об абитуриенте подготовлены ${id}`)
         setData(datas)
     }
     async function CreateDoc(id: any) {
@@ -93,14 +93,14 @@ export default function Abiturs() {
             method: 'POST'
         })
         const datas = await response.json();
-        console.log(datas)
+        console.log(`Заявление для абитуриента ${id} создано`)
     }
     useEffect(() => {
         componentDidMount();
     }, []);
     async function Select(id: any) {
         setShow(false)
-        console.log("worked"+id)
+        console.log(`Открываем карточку абитуриента ${id}`)
         getAb(id)
     }
     async function Doca(id: any) {
@@ -109,7 +109,7 @@ export default function Abiturs() {
     }
     async function Back(id: any) {
         setShow(true)
-        console.log("worked"+id)
+        console.log(`Закрываем карточку абитуриента`)
         await componentDidMount()
         setData([''])
     }
@@ -123,7 +123,7 @@ export default function Abiturs() {
             method: 'POST'
         })
         const datas = await response.json();
-        console.log(datas)
+        console.log(`Применили фильтр ${val}`)
         setDataMan(datas)
     }
     function handleSubmit(e: any) {
@@ -217,11 +217,33 @@ export default function Abiturs() {
             method: 'POST'
         })
         const result = await res.json()
-        console.log(result)
+        console.log(`Зарегистрировали нового пользователя ${data.id}`)
         if (result) {
             alert("Успешно отредактировано заявка")
         } else {
             alert("Неуспешно отредактировано" + result)
+        }
+    }
+    async function Deleted(id: any) {
+        const quest = await confirm(`Вы точно хотите удалить абитуриента ${id}`)
+        if (quest == true) {
+            const res = await fetch('/api/deleted', {
+                body: JSON.stringify({id}),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST'
+            })
+            const result = await res.json()
+            console.log(`Удалили пользователя ${result.id}`)
+            if (result) {
+                alert(`Успешно удален абиттуриент ${id}`)
+                await componentDidMount()
+            } else {
+                alert(`Ошибка удаления абиттуриента ${id}`)
+            }
+        } else {
+            alert(`Вы отказались удалить абиттуриента ${id}`)
         }
     }
     function ListAbiturs() {
@@ -255,7 +277,8 @@ export default function Abiturs() {
                                 <label>ID: {key['id']} </label>
                                 <label>ФИО: {key['firstname']} </label>
                                 <label> {key['name']} </label>
-                                <label> {key['lastname']} </label><hr/>
+                                <label> {key['lastname']} </label>
+                                <button onClick={()=>{Deleted(key['id'])}}>🚫</button><hr/>
                             </div>
                             <div>
                                 <label>Желаемая специальность: {key['specialization_first']} </label><br/>
