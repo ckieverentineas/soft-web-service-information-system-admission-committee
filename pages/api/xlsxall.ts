@@ -24,7 +24,8 @@ export default async function handler(req: any, res: any) {
             'Продавец, контролёр-кассир',
             'Мастер контрольно-измерительных приборов и автоматики',
             'Лаборант-эколог',
-            'Наладчик компьютерных сетей'
+            'Наладчик компьютерных сетей',
+            'Техническое обслуживание и ремонт систем и агрегатов автомобилей'
         ]
         const form = ['ЗАОЧНОЙ', 'ОЧНОЙ']
         const specmod = ['Экономика и бухгалтерский учет (по отраслям)',
@@ -47,7 +48,8 @@ export default async function handler(req: any, res: any) {
                         four: true,
                         five: true,
                         education_complete_type: true,
-                        form_education: true
+                        form_education: true,
+                        house: true
                     }
                 }
                 
@@ -60,6 +62,7 @@ export default async function handler(req: any, res: any) {
                         fio: data[i].firstname + " " + data[i].name + " " + data[i].lastname,
                         aver: ((parseInt(data[i].tree)*3+parseInt(data[i].four)*4+parseInt(data[i].five)*5)/(parseInt(data[i].tree)+parseInt(data[i].four)+parseInt(data[i].five))).toFixed(2),
                         doc: data[i].education_complete_type,
+                        house: data[i].house
                     });
                 }//return a.сумма.slice(0, -1) - b.сумма.slice(0, -1);
                 jsonArr.sort(function(a:any, b:any) {return b.aver.slice(0, -1) - a.aver.slice(0, -1)})
@@ -71,13 +74,14 @@ export default async function handler(req: any, res: any) {
                         fio: jsonArr[i].fio,
                         aver: jsonArr[i].aver,
                         doc: jsonArr[i].doc,
+                        house: jsonArr[i].house
                     });
                 }
                 const WorkSheet = xlsx.utils.json_to_sheet(complet|| {id: null, fio: null, aver:null, doc: null})
                 xlsx.utils.book_append_sheet(WorkBook, WorkSheet, `${form[j]}_${spec[i]}`.substr(0, 31));
 
                 /* fix headers */
-                xlsx.utils.sheet_add_aoa(WorkSheet, [["№ п/п", "ФИО абитуриента", "ср. балл", "копия/оригинал"]], { origin: "A1" });
+                xlsx.utils.sheet_add_aoa(WorkSheet, [["№ п/п", "ФИО абитуриента", "ср. балл", "копия/оригинал", "В общежитии"]], { origin: "A1" });
                 
             }
         }
@@ -99,7 +103,8 @@ export default async function handler(req: any, res: any) {
                             four: true,
                             five: true,
                             education_complete_type: true,
-                            form_education: true
+                            form_education: true,
+                            house: true
                         }
                     }
                     
@@ -112,6 +117,7 @@ export default async function handler(req: any, res: any) {
                             fio: data[i].firstname + " " + data[i].name + " " + data[i].lastname,
                             aver: ((parseInt(data[i].tree)*3+parseInt(data[i].four)*4+parseInt(data[i].five)*5)/(parseInt(data[i].tree)+parseInt(data[i].four)+parseInt(data[i].five))).toFixed(2),
                             doc: data[i].education_complete_type,
+                            house: data[i].house
                         });
                     }//return a.сумма.slice(0, -1) - b.сумма.slice(0, -1);
                     jsonArr.sort(function(a:any, b:any) {return b.aver.slice(0, -1) - a.aver.slice(0, -1)})
@@ -123,13 +129,14 @@ export default async function handler(req: any, res: any) {
                             fio: jsonArr[i].fio,
                             aver: jsonArr[i].aver,
                             doc: jsonArr[i].doc,
+                            house: jsonArr[i].house
                         });
                     }
                     const WorkSheet = xlsx.utils.json_to_sheet(complet|| {id: null, fio: null, aver:null, doc: null})
                     xlsx.utils.book_append_sheet(WorkBook, WorkSheet, `${form[j]}_${educ[x]}_${specmod[i]}`.substr(0, 31));
 
                     /* fix headers */
-                    xlsx.utils.sheet_add_aoa(WorkSheet, [["№ п/п", "ФИО абитуриента", "ср. балл", "копия/оригинал"]], { origin: "A1" });
+                    xlsx.utils.sheet_add_aoa(WorkSheet, [["№ п/п", "ФИО абитуриента", "ср. балл", "копия/оригинал", "В общежитии"]], { origin: "A1" });
                 }
             }
         }
