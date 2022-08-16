@@ -130,10 +130,10 @@ const Admin: NextPage = () => {
                                 <button className={styles.bita}>Отчет по всем группам</button></Link></a><br/>
             
             <label>Нажмите вначале Генерация Финального отчета, и только затем Финальный Отчет по всем группам!</label>
-            <button className={styles.bita} onClick={GenAllFin}>Генерация Финального отчета</button>
+            <button className={styles.bita2} onClick={GenAllFin}>Генерация Финального отчета</button>
                                 <a target="_blank" href={`./tables/fullfin.xlsx`} download>
                                 <Link href={`./tables/fullfin.xlsx`} target="_blank">
-                                <button className={styles.bita}>Финальный Отчет по всем группам</button></Link></a><br/>
+                                <button className={styles.bita2}>Финальный Отчет по всем группам</button></Link></a><br/>
 
             <label className={styles.label}>Специальность:</label> 
                         <select name="specialization_first" id="filtersosmod" onChange={ahandleSubmitmod}>
