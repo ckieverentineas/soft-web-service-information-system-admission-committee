@@ -68,6 +68,19 @@ const Admin: NextPage = () => {
         const datas = await response.json();
         console.log(datas)
     }
+    async function GenAllFin() {
+        // GET request using fetch with async/await
+        const response = await fetch('/api/xlsxfin', {
+            body: JSON.stringify({status: 'request'}),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'POST'
+        })
+        alert('Подтвердите получение дампа данных абитуриентов')
+        const datas = await response.json();
+        console.log(datas)
+    }
     return (
         <div className={styles.container}>
         <Head>
@@ -116,6 +129,12 @@ const Admin: NextPage = () => {
                                 <Link href={`./tables/full.xlsx`} target="_blank">
                                 <button className={styles.bita}>Отчет по всем группам</button></Link></a><br/>
             
+            <label>Нажмите вначале Генерация Финального отчета, и только затем Финальный Отчет по всем группам!</label>
+            <button className={styles.bita} onClick={GenAllFin}>Генерация Финального отчета</button>
+                                <a target="_blank" href={`./tables/fullfin.xlsx`} download>
+                                <Link href={`./tables/fullfin.xlsx`} target="_blank">
+                                <button className={styles.bita}>Финальный Отчет по всем группам</button></Link></a><br/>
+
             <label className={styles.label}>Специальность:</label> 
                         <select name="specialization_first" id="filtersosmod" onChange={ahandleSubmitmod}>
                             <option value='Право и организация социального обеспечения'>Право и организация социального обеспечения</option>
