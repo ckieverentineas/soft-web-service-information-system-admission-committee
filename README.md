@@ -6,6 +6,8 @@ First, run the development server:
 git clone https://github.com/ckieverentineas/admission-committee-main.git
 cd admission-committee-main
 npm i
+npx prisma migrate dev --name init
+npx prisma generate
 npm run dev
 # or
 yarn dev
