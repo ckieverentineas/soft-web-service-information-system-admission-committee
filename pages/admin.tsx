@@ -91,8 +91,10 @@ const Admin: NextPage = () => {
 
         <main>
             <h1 className={styles.title}>
-            Личный кабинет администратора
-            </h1><br/>
+                <label>Личный кабинет администратора </label>
+                <Link href="/configure" className={styles.card} rel="noopener noreferrer">⚙</Link>
+            </h1>
+            <br/>
             <label className={styles.label}>Специальность:</label> 
                         <select name="specialization_first" id="filtersos" onChange={ahandleSubmit}>
                             <option value='Компьютерные системы и комплексы'>Компьютерные системы и комплексы</option>

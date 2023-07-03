@@ -67,3 +67,10 @@ model Passport {
   four String @default("")
   five String @default("")
 }
+
+model Specialization {
+  id       Int       @id @default(autoincrement())
+  name String
+  form_education String
+  form_education_pay String
+}
