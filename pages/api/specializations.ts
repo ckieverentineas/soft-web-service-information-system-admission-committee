@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // Создание или обновление специализации
-  const { _method, id, name, form_education, form_education_pay } = req.body;
+  const { _method, id, name, form_education, form_education_pay, education_complete_category } = req.body;
   console.log('%cMyProject%cline:8%c_method, id, name, form_education, form_education_pay', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(254, 67, 101);padding:3px;border-radius:2px', _method, id, name, form_education, form_education_pay)
   if (req.method === 'GET') {
     // Получение списка специализаций
@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Обновление специализации
       const updatedSpecialization = await prisma.specialization.update({
         where: { id: Number(id) },
-        data: { name, form_education: form_education, form_education_pay: form_education_pay },
+        data: { name, form_education: form_education, form_education_pay: form_education_pay, education_complete_category: education_complete_category },
       });
       return res.status(200).json(updatedSpecialization);
 
@@ -31,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (_method === 'POST') {
       // Создание специализации
       const newSpecialization = await prisma.specialization.create({
-        data: { name, form_education: form_education, form_education_pay: form_education_pay },
+        data: { name, form_education: form_education, form_education_pay: form_education_pay, education_complete_category },
       });
       return res.status(200).json(newSpecialization);
     }

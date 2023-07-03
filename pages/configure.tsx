@@ -11,6 +11,7 @@ const Specializations: React.FC<Props> = ({ specializations }) => {
   const [name, setName] = useState('');
   const [formEducation, setFormEducation] = useState<string[]>([]);
   const [formEducationPay, setFormEducationPay] = useState<string[]>([]);
+  const [formEducationCompleteCategory, setFormEducationCompleteCategory] = useState<string[]>([]); 
   const [editingId, setEditingId] = useState<number | null>(null);
   const [specializationsList, setSpecializationsList] = useState(specializations);
   const router = useRouter();
@@ -38,6 +39,7 @@ const Specializations: React.FC<Props> = ({ specializations }) => {
           name,
           form_education: formEducation.join(','),
           form_education_pay: formEducationPay.join(','),
+          education_complete_category: formEducationCompleteCategory.join(',')
         }),
       });
       setEditingId(null);
@@ -53,6 +55,7 @@ const Specializations: React.FC<Props> = ({ specializations }) => {
           name,
           form_education: formEducation.join(','),
           form_education_pay: formEducationPay.join(','),
+          education_complete_category: formEducationCompleteCategory.join(',')
         }),
       });
     }
@@ -78,6 +81,7 @@ const Specializations: React.FC<Props> = ({ specializations }) => {
     setName(data.name);
     setFormEducation(data.form_education.split(','));
     setFormEducationPay(data.form_education_pay.split(','));
+    setFormEducationCompleteCategory(data.education_complete_category.split(','))
     setEditingId(id);
     setLoading(false);
   };
@@ -113,40 +117,65 @@ const Specializations: React.FC<Props> = ({ specializations }) => {
       setFormEducationPay([...formEducationPay, value]);
     }
   };
+  
+  const handleFormEducationCompleteCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    if (formEducationCompleteCategory.includes(value)) {
+      setFormEducationCompleteCategory(formEducationCompleteCategory.filter((item) => item !== value));
+    } else {
+      setFormEducationCompleteCategory([...formEducationCompleteCategory, value]);
+    }
+  };
 
   return (
     <div>
-      <h1>Specializations</h1>
+      <h1>Контроль специализаций</h1>
       <form onSubmit={handleSubmit}>
-      <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
-      <div>
-        <label>
-          Full-time
-          <input type="checkbox" value="full-time" checked={formEducation.includes('full-time')} onChange={handleFormEducationChange} />
-        </label>
-        <label>
-          Part-time
-          <input type="checkbox" value="part-time" checked={formEducation.includes('part-time')} onChange={handleFormEducationChange} />
-        </label>
-        <label>
-          Distance
-          <input type="checkbox" value="distance" checked={formEducation.includes('distance')} onChange={handleFormEducationChange} />
-        </label>
-      </div>
-      <label>
-        Budget
-        <input type="checkbox" value="budget" checked={formEducationPay.includes('budget')} onChange={handleFormEducationPayChange} />
-      </label>   
-      <label>
-        Commercial
-        <input type="checkbox" value="commercial" checked={formEducationPay.includes('commercial')} onChange={handleFormEducationPayChange} />
-      </label>
-          <button type="submit" disabled={loading}>{editingId ? 'Update' : 'Create'}</button>
+        <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
+        
+        <div>
+          <label>Форма обучения: </label>
+          <label>
+            ОЧНАЯ
+            <input type="checkbox" value="ОЧНОЙ" checked={formEducation.includes('ОЧНОЙ')} onChange={handleFormEducationChange} />
+          </label>
+          <label>
+            ЗАОЧНАЯ
+            <input type="checkbox" value="ЗАОЧНОЙ" checked={formEducation.includes('ЗАОЧНОЙ')} onChange={handleFormEducationChange} />
+          </label>
+          <label>
+            ЗАОЧНО-ОЧНАЯ
+            <input type="checkbox" value="ЗАОЧНО-ОЧНОЙ" checked={formEducation.includes('ЗАОЧНО-ОЧНОЙ')} onChange={handleFormEducationChange} />
+          </label>
+        </div>
+        <div>
+          <label>Место: </label>
+          <label>
+            За счет ассингнованных средств краевого бюджета
+            <input type="checkbox" value="финансируемые из средств краевого бюджета" checked={formEducationPay.includes('финансируемые из средств краевого бюджета')} onChange={handleFormEducationPayChange} />
+          </label>   
+          <label>
+            Договор с оплатой стоимости обучения
+            <input type="checkbox" value="по договорам с оплатой стоимости обучения" checked={formEducationPay.includes('по договорам с оплатой стоимости обучения')} onChange={handleFormEducationPayChange} />
+          </label>
+        </div>
+        <div>
+          <label>Тип образования: </label>
+          <label>
+            СРЕДНЕЕ ОБЩЕЕ - 11 КЛАССОВ
+            <input type="checkbox" value="СРЕДНЕЕ ОБЩЕЕ" checked={formEducationCompleteCategory.includes('СРЕДНЕЕ ОБЩЕЕ')} onChange={handleFormEducationCompleteCategoryChange} />
+          </label>   
+          <label>
+            ОСНОВНОЕ ОБЩЕЕ - 9 КЛАССОВ
+            <input type="checkbox" value="ОСНОВНОЕ ОБЩЕЕ" checked={formEducationCompleteCategory.includes('ОСНОВНОЕ ОБЩЕЕ')} onChange={handleFormEducationCompleteCategoryChange} />
+          </label>
+        </div>
+        <button type="submit" disabled={loading}>{editingId ? 'Update' : 'Create'}</button>
       </form>
       <ul>
         {specializationsList.map((specialization) => (
           <li key={specialization.id}>
-            {specialization.id} - {specialization.name} | {Array.isArray(specialization.form_education) ? specialization.form_education.join(', ') : specialization.form_education} | {Array.isArray(specialization.form_education_pay) ? specialization.form_education_pay.join(', ') : specialization.form_education_pay}
+            {specialization.id} - {specialization.name} | {Array.isArray(specialization.form_education) ? specialization.form_education.join(', ') : specialization.form_education} | {Array.isArray(specialization.form_education_pay) ? specialization.form_education_pay.join(', ') : specialization.form_education_pay} | {Array.isArray(specialization.education_complete_category) ? specialization.education_complete_category.join(', ') : specialization.education_complete_category}
             <button onClick={() => handleEdit(specialization.id)}>Edit</button>
             <button onClick={() => handleDelete(specialization.id)}>Delete</button>
           </li>

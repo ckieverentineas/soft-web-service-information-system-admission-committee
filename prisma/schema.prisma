@@ -73,4 +73,5 @@ model Specialization {
   name String
   form_education String
   form_education_pay String
+  education_complete_category String
 }
