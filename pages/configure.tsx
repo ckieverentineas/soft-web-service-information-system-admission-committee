@@ -145,7 +145,7 @@ const Specializations: React.FC<Props> = ({ specializations }) => {
   }
   return (
     <div>
-      <h1>Контроль специализаций <button onClick={handleInitSpec}>Init</button> <button onClick={Back_Last}>Назад</button></h1>
+      <h1>Контроль специализаций <button onClick={handleInitSpec} title='Кнопка для создания специальностей по дефолту из кода согласно буклету 2023/2024'>Init</button> <button onClick={Back_Last}>Назад</button></h1>
       <form onSubmit={handleSubmit}>
         <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
         <div>

@@ -102,8 +102,8 @@ const Admin: NextPage = () => {
         <main>
             <h1 className={styles.title}>
                 <label>Личный кабинет администратора </label>
-                <Link href="/configure" className={styles.card} rel="noopener noreferrer">⚙</Link>
-                <Link href="/" className={styles.card} rel="noopener noreferrer">🏠</Link>
+                <Link href="/configure" className={styles.card} rel="noopener noreferrer" title='Меню для управления специальностями'>⚙</Link>
+                <Link href="/" className={styles.card} rel="noopener noreferrer" title='На главную'>🏠</Link>
             </h1>
             <br/>
             {/** 

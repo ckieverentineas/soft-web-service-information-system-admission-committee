@@ -7,6 +7,7 @@ export default function Abiturs() {
     const [dataman, setDataMan] = useState([])
     const [data, setData] = useState<any[]>([])
     const [show, setShow] = useState(true)
+    const [counter, setCounter] = useState<number | null>(null)
     const colums = {
         id: 'ID:',
         citizenship: 'Гражданство:', 
@@ -126,6 +127,7 @@ export default function Abiturs() {
         const datas = await response.json();
         console.log(`Применили фильтр ${val}`)
         setDataMan(datas)
+        hanleCounter()
     }
     function handleSubmit(e: any) {
         e.preventDefault()
@@ -253,14 +255,48 @@ export default function Abiturs() {
         const data = await res.json();
         setSpecializationsList(data)
     };
+    const hanleCounter = async () => {
+        const val = document.getElementById('filters')?.value
+        const res = await fetch('/api/specializations', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              _method: 'COUNTER',
+              specialization_first: val
+            }),
+        });
+        const data = await res.json();
+        setCounter(data.message)
+    };
+    const hanleCleared = async () => {
+        const res = await fetch('/api/specializations', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              _method: 'CLEARED',
+            }),
+        });
+        const data = await res.json();
+        setCounter(data.length)
+        setDataMan(data)
+    };
     useEffect(() => {
         hanleGetSpec()
+        hanleCounter()
     }, []);
     function ListAbiturs() {
         if (show) {
             return (
                 <div>
-                    <h2 className={styles.title}>Поданные заявления аббитуриентов:</h2>
+                    <h2 className={styles.title}>
+                        Поданные заявления аббитуриентов:
+                        <label className={styles.card} title='Количество абитуриентов подавших заявления'>👤{counter}</label>
+                        <label className={styles.card} onClick={hanleCleared} title='Проверяльщик на то, есть ли абитуриенты с не установленными специфичными специальностями в качестве основной'>🕵️‍♀️</label>
+                    </h2>
                     <label className={styles.label}>Специальность:</label> 
                         <select name="specialization_first" id="filters" onChange={ahandleSubmit}>
                             { specializationsList?.map(specialization => ( <option key={specialization.id} value={specialization.name}>{specialization.name}</option> )) }

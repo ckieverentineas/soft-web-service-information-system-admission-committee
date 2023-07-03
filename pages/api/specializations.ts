@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // Создание или обновление специализации
-  const { _method, id, name, form_education, form_education_pay, education_complete_category } = req.body;
+  const { _method, id, name, form_education, form_education_pay, education_complete_category, specialization_first } = req.body;
   //console.log('%cMyProject%cline:8%c_method, id, name, form_education, form_education_pay', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(254, 67, 101);padding:3px;border-radius:2px', _method, id, name, form_education, form_education_pay)
   if (req.method === 'GET') {
     // Получение списка специализаций
@@ -41,6 +41,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         where: { id: Number(id) },
       });
       return res.status(200).json(newSpecialization);
+    }
+    if (_method === 'COUNTER') {
+      // Подсчет участников
+      let counter = 0
+      if (specialization_first) {
+        const count = await prisma.passport.count({
+          where: { specialization_first },
+        });
+        counter = count
+      } else {
+        const count = await prisma.passport.count();
+        counter = count
+      }
+      return res.status(200).json({ message: counter });
+    }
+    if (_method === 'CLEARED') {
+      // Выявление не задействованных юзеров
+      const users = await prisma.passport.findMany();
+      const specializations = await prisma.specialization.findMany();
+      const allowedSpecializations = specializations.map(specialization => specialization.name);
+      const usersWithSpecializations = users.filter(user => { return !allowedSpecializations.includes(user.specialization_first); })
+      return res.status(200).json(usersWithSpecializations);
     }
     if (_method === 'INIT') {
       // Создание специализации
