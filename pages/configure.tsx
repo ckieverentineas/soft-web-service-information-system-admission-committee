@@ -100,6 +100,19 @@ const Specializations: React.FC<Props> = ({ specializations }) => {
     setSpecializationsList(specializationsList.filter((item) => item.id !== id));
   };
 
+  const handleInitSpec = async () => {
+    const mes = await fetch('/api/specializations', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        _method: 'INIT',
+      }),
+    });
+    console.log(mes)
+    router.reload();
+  };
   const handleFormEducationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     if (formEducation.includes(value)) {
@@ -127,12 +140,14 @@ const Specializations: React.FC<Props> = ({ specializations }) => {
     }
   };
 
+  async function Back_Last() {
+    document.location.href= "/"
+  }
   return (
     <div>
-      <h1>Контроль специализаций</h1>
+      <h1>Контроль специализаций <button onClick={handleInitSpec}>Init</button> <button onClick={Back_Last}>Назад</button></h1>
       <form onSubmit={handleSubmit}>
         <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
-        
         <div>
           <label>Форма обучения: </label>
           <label>

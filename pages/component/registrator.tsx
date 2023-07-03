@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from '/styles/Home.module.css'
+import { Specialization } from '@prisma/client'
 export default function Registrator() {
     function handleSubmit(e: any) {
         e.preventDefault()
@@ -83,6 +84,15 @@ export default function Registrator() {
         Register_User(data);
     }
     async function Register_User(data: any) {
+        for (const i in specializationsList) {
+            const cur = specializationsList[i];
+            if (cur.name == data.specialization_first) {
+                if (!cur.form_education.split(',').includes(data.form_education) && !cur.form_education_pay.split(',').includes(data.form_education_pay) && !cur.education_complete_category.split(',').includes(data.education_complete_category) ) {
+                    const check = window.confirm(`Форма обучения ${data.form_education} --> ${cur.form_education.split(',').includes(data.form_education)}\nМесто ${data.form_education_pay} --> ${cur.form_education_pay.split(',').includes(data.form_education_pay)}\nНа базе ${data.education_complete_category} --> ${cur.education_complete_category.split(',').includes(data.education_complete_category)}\nВы уверены, что хотите добавить абитуриента на специальность не удовлетворяющую условиям?`)
+                    if (!check) { return; }
+                }
+            }
+        }
         const res = await fetch('/api/abbitur', {
             body: JSON.stringify(data),
             headers: {
@@ -99,6 +109,15 @@ export default function Registrator() {
             alert("Неуспешно" + result)
         }
     }
+    const [specializationsList, setSpecializationsList] = useState<Specialization[] | null>(null);
+    const hanleGetSpec = async () => {
+        const res = await fetch('/api/specializations');
+        const data = await res.json();
+        setSpecializationsList(data)
+    };
+    useEffect(() => {
+        hanleGetSpec()
+    }, []);
     return (
         <div className={styles.card}>
             <h1 className={styles.title}>Создание заявления</h1>
@@ -196,26 +215,35 @@ export default function Registrator() {
                     <li className={styles.formrow}>
                         <label className={styles.label}>Специальность:</label> 
                         <select name="specialization_first">
-                            <option value='Компьютерные системы и комплексы'>Компьютерные системы и комплексы</option>
-                            <option value='Монтаж и эксплуатация оборудования и систем газоснабжения'>Монтаж и эксплуатация оборудования и систем газоснабжения</option>
-                            <option value='Монтаж, наладка и эксплуатация электрооборудования промышленных и гражданских зданий'>Монтаж, наладка и эксплуатация электрооборудования промышленных и гражданских зданий</option>
-                            <option value='Информационные системы и программирование'>Информационные системы и программирование</option>
-                            <option value='Почтовая связь'>Почтовая связь</option>
-                            <option value='Теплоснабжение и теплотехническое оборудование'>Теплоснабжение и теплотехническое оборудование</option>
-                            <option value='Технология аналитического контроля химических соединений'>Технология аналитического контроля химических соединений</option>
-                            <option value='Право и организация социального обеспечения'>Право и организация социального обеспечения</option>
-                            <option value='Экономика и бухгалтерский учет (по отраслям)'>Экономика и бухгалтерский учет (по отраслям)</option>
-                            <option value='Электромонтажник электрических сетей и электрооборудования'>Электромонтажник электрических сетей и электрооборудования</option>
-                            <option value='Электромонтер по техническому обслуживанию электростанций и сетей'>Электромонтер по техническому обслуживанию электростанций и сетей</option>
-                            <option value='Электромонтер по ремонту и обслуживанию электрооборудования (по отраслям)'>Электромонтер по ремонту и обслуживанию электрооборудования (по отраслям)</option>
+                            { specializationsList?.map(specialization => ( <option key={specialization.id} value={specialization.name}>{specialization.name}</option> )) }
+                        </select>
+                        {/*
+                        <select name="specialization_first">
+                            <option value=''>Компьютерные системы и комплексы</option>
+                            <option value=''>Монтаж и эксплуатация оборудования и систем газоснабжения</option>
+                            <option value=''>Монтаж, наладка и эксплуатация электрооборудования промышленных и гражданских зданий</option>
+                            <option value=''>Информационные системы и программирование</option>
+                            <option value=''>Почтовая связь</option>
+                            <option value=''>Теплоснабжение и теплотехническое оборудование</option>
+                            <option value=''>Технология аналитического контроля химических соединений</option>
+                            <option value=''>Право и организация социального обеспечения</option>
+                            <option value=''>Экономика и бухгалтерский учет (по отраслям)</option>
+                            <option value=''>Электромонтажник электрических сетей и электрооборудования</option>
+                            <option value=''>Электромонтер по техническому обслуживанию электростанций и сетей</option>
+                            <option value=''>Электромонтер по ремонту и обслуживанию электрооборудования (по отраслям)</option>
                             <option value='Оператор нефтепереработки'>Оператор нефтепереработки</option>
-                            <option value='Продавец, контролёр-кассир'>Продавец, контролёр-кассир</option>
-                            <option value='Мастер контрольно-измерительных приборов и автоматики'>Мастер контрольно-измерительных приборов и автоматики</option>
-                            <option value='Лаборант-эколог'>Лаборант-эколог</option>
+                            <option value=''>Продавец, контролёр-кассир</option>
+                            <option value=''>Мастер контрольно-измерительных приборов и автоматики</option>
+                            <option value=''>Лаборант-эколог</option>
                             <option value='Наладчик компьютерных сетей'>Наладчик компьютерных сетей</option>
                             <option value='Техническое обслуживание и ремонт систем и агрегатов автомобилей'>Техническое обслуживание и ремонт систем и агрегатов автомобилей</option>
                         </select>
+                        */}
                         <label className={styles.label}>Резервная специальность:</label> 
+                        <select name="specialization_second">
+                            { specializationsList?.map(specialization => ( <option key={specialization.id} value={specialization.name}>{specialization.name}</option> )) }
+                        </select>
+                        {/* 
                         <select name="specialization_second">
                             <option value='Монтаж и эксплуатация оборудования и систем газоснабжения'>Монтаж и эксплуатация оборудования и систем газоснабжения</option>
                             <option value='Монтаж, наладка и эксплуатация электрооборудования промышленных и гражданских зданий'>Монтаж, наладка и эксплуатация электрооборудования промышленных и гражданских зданий</option>
@@ -236,6 +264,7 @@ export default function Registrator() {
                             <option value='Наладчик компьютерных сетей'>Наладчик компьютерных сетей</option>
                             <option value='Техническое обслуживание и ремонт систем и агрегатов автомобилей'>Техническое обслуживание и ремонт систем и агрегатов автомобилей</option>
                         </select>
+                        */}
                     </li>
                     <fieldset>
                         <legend>Форма обучения:</legend>
@@ -244,6 +273,16 @@ export default function Registrator() {
                         <input type="radio" name="form_education" value="ЗАОЧНОЙ"/>
                         <label>ЗАОЧНАЯ</label>
                     </fieldset>
+                    {/* 
+                    <fieldset>
+                        <legend>Форма обучения:</legend>
+                        {specializationsList?.map((spec) => (
+                            <div key={spec.id}>
+                            <input type="radio" name="form_education" value={spec.form_education} required />
+                            <label>{spec.form_education}</label>
+                            </div>
+                        ))}
+                    </fieldset>*/}
                     <fieldset>
                         <legend>Место:</legend>
                         <input type="radio" name="form_education_pay" value="финансируемые из средств краевого бюджета" required/>

@@ -42,6 +42,135 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
       return res.status(200).json(newSpecialization);
     }
+    if (_method === 'INIT') {
+      // Создание специализации
+      const data_init = [
+        {
+          name: "Монтаж и эксплуатация оборудования и систем газоснабжения",
+          form_education: "ЗАОЧНОЙ,ОЧНОЙ",
+          form_education_pay: "финансируемые из средств краевого бюджета",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ"
+        },
+        {
+          name: "Монтаж, наладка и эксплуатация электрооборудования промышленных и гражданских зданий",
+          form_education: "ЗАОЧНОЙ,ОЧНОЙ",
+          form_education_pay: "финансируемые из средств краевого бюджета",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ,СРЕДНЕЕ ОБЩЕЕ"
+        },
+        {
+          name: "Компьютерные системы и комплексы",
+          form_education: "ЗАОЧНОЙ,ОЧНОЙ",
+          form_education_pay: "финансируемые из средств краевого бюджета",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ"
+        },
+        {
+          name: "Информационные системы и программирование",
+          form_education: "ОЧНОЙ",
+          form_education_pay: "финансируемые из средств краевого бюджета",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ"
+        },
+        {
+          name: "Почтовая связь",
+          form_education: "ЗАОЧНОЙ,ОЧНОЙ",
+          form_education_pay: "финансируемые из средств краевого бюджета",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ,СРЕДНЕЕ ОБЩЕЕ"
+        },
+        {
+          name: "Теплоснабжение и теплотехническое оборудование",
+          form_education: "ЗАОЧНОЙ,ОЧНОЙ",
+          form_education_pay: "финансируемые из средств краевого бюджета",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ"
+        },
+        {
+          name: "Технология аналитического контроля химических соединений",
+          form_education: "ОЧНОЙ",
+          form_education_pay: "финансируемые из средств краевого бюджета",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ"
+        },
+        {
+          name: "Оснащение средствами автоматизации технологических процессов и производств (по отраслям)",
+          form_education: "ОЧНОЙ",
+          form_education_pay: "финансируемые из средств краевого бюджета",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ"
+        },
+        {
+          name: "Экономика и бухгалтерский учет (по отраслям)",
+          form_education: "ЗАОЧНОЙ,ОЧНОЙ",
+          form_education_pay: "по договорам с оплатой стоимости обучения",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ,СРЕДНЕЕ ОБЩЕЕ"
+        },
+        {
+          name: "Право и организация социального обеспечения",
+          form_education: "ОЧНОЙ",
+          form_education_pay: "по договорам с оплатой стоимости обучения",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ,СРЕДНЕЕ ОБЩЕЕ"
+        },
+        {
+          name: "Мастер контрольно-измерительных приборов и автоматики",
+          form_education: "ОЧНОЙ",
+          form_education_pay: "финансируемые из средств краевого бюджета",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ"
+        },
+        {
+          name: "Лаборант-эколог",
+          form_education: "ОЧНОЙ",
+          form_education_pay: "финансируемые из средств краевого бюджета",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ"
+        },
+        {
+          name: "Электромонтажник электрических сетей и электрооборудования",
+          form_education: "ОЧНОЙ",
+          form_education_pay: "финансируемые из средств краевого бюджета",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ"
+        },
+        {
+          name: "Электромонтажник слаботочных систем",
+          form_education: "ОЧНОЙ",
+          form_education_pay: "финансируемые из средств краевого бюджета",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ"
+        },
+        {
+          name: "Наладчик аппаратных и программных средств инфокоммуникационных систем",
+          form_education: "ОЧНОЙ",
+          form_education_pay: "финансируемые из средств краевого бюджета",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ"
+        },
+        {
+          name: "Электромонтер по техническому обслуживанию электростанций и сетей",
+          form_education: "ОЧНОЙ",
+          form_education_pay: "финансируемые из средств краевого бюджета",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ"
+        },
+        {
+          name: "Электромонтер по ремонту и обслуживанию электрооборудования (по отраслям)",
+          form_education: "ОЧНОЙ",
+          form_education_pay: "финансируемые из средств краевого бюджета",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ"
+        },
+        {
+          name: "Продавец, контролёр-кассир",
+          form_education: "ОЧНОЙ",
+          form_education_pay: "финансируемые из средств краевого бюджета",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ"
+        },
+
+      ]
+      let ct = 0
+      for (const i in data_init) {
+        const sel = data_init[i]
+        const spec_check = await prisma.specialization.findFirst({
+          where: { name: sel.name },
+        });
+        if (!spec_check) {
+          const spec_save = await prisma.specialization.create({ data: { name: sel.name, form_education: sel.form_education, form_education_pay: sel.form_education_pay, education_complete_category: sel.education_complete_category } })
+          if (spec_check) {
+            console.log(`Add new specialization: ${spec_save.id}`)
+            ct++
+          }
+        }
+      }
+      return res.status(200).json({ message: `Добавлено специальностей по умолчанию: ${ct}`});
+    }
   }
   return res.status(405).json({ message: 'Method not allowed' });
 }
