@@ -88,7 +88,7 @@ export default async function handler(req: any, res: any) {
                         });
                     }
                     const WorkSheet = xlsx.utils.json_to_sheet(complet|| {id: null, fio: null, aver:null, doc: null})
-                    console.log(`${form_educ[fr].slice(0, 2)}_${educ[ed].slice(0, 2)}_${spec[sp].name}`.slice(0, 31))
+                    //console.log(`${form_educ[fr].slice(0, 2)}_${educ[ed].slice(0, 2)}_${spec[sp].name}`.slice(0, 31))
                     xlsx.utils.book_append_sheet(WorkBook, WorkSheet, `${form_educ[fr].slice(0, 2)}_${educ[ed].slice(0, 2)}_${spec[sp].name}`.slice(0, 31));
 
                     /* fix headers */
