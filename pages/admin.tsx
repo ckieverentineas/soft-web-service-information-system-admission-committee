@@ -2,9 +2,10 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from '../styles/Home.module.css'
 import Abiturs from './component/abiturs'
+import { Specialization } from '@prisma/client'
 
 const Admin: NextPage = () => {
     const [methodEducation, setMethodEducation] = useState('');
@@ -81,6 +82,15 @@ const Admin: NextPage = () => {
         const datas = await response.json();
         console.log(datas)
     }
+    const [specializationsList, setSpecializationsList] = useState<Specialization[] | null>(null);
+    const hanleGetSpec = async () => {
+        const res = await fetch('/api/specializations');
+        const data = await res.json();
+        setSpecializationsList(data)
+    };
+    useEffect(() => {
+        hanleGetSpec()
+    }, []);
     return (
         <div className={styles.container}>
         <Head>
@@ -93,8 +103,10 @@ const Admin: NextPage = () => {
             <h1 className={styles.title}>
                 <label>Личный кабинет администратора </label>
                 <Link href="/configure" className={styles.card} rel="noopener noreferrer">⚙</Link>
+                <Link href="/" className={styles.card} rel="noopener noreferrer">🏠</Link>
             </h1>
             <br/>
+            {/** 
             <label className={styles.label}>Специальность:</label> 
                         <select name="specialization_first" id="filtersos" onChange={ahandleSubmit}>
                             <option value='Компьютерные системы и комплексы'>Компьютерные системы и комплексы</option>
@@ -124,7 +136,9 @@ const Admin: NextPage = () => {
                             <a target="_blank" href={`./tables/${specialization_first}.xlsx`} download>
                                 <Link href={`./tables/${specialization_first}.xlsx`} target="_blank">
                                 <button>Скачать список группы</button></Link></a>
-            <button onClick={Admin}>На главную</button><br/>
+                                <button onClick={Admin}>На главную</button><br/>
+                                */}
+            
             <label>Нажмите вначале Генерация отчета, и только затем Отчет по всем группам!</label>
             <button className={styles.bita} onClick={GenAll}>Генерация отчета</button>
                                 <a target="_blank" href={`./tables/full.xlsx`} download>
@@ -138,10 +152,15 @@ const Admin: NextPage = () => {
                                 <button className={styles.bita2}>Финальный Отчет по всем группам</button></Link></a><br/>
 
             <label className={styles.label}>Специальность:</label> 
+                <select name="specialization_first" id="filtersosmod" onChange={ahandleSubmitmod}>
+                    { specializationsList?.map(specialization => ( <option key={specialization.id} value={specialization.name}>{specialization.name}</option> )) }
+                </select>
+                        {/*
                         <select name="specialization_first" id="filtersosmod" onChange={ahandleSubmitmod}>
                             <option value='Право и организация социального обеспечения'>Право и организация социального обеспечения</option>
                             <option value='Экономика и бухгалтерский учет (по отраслям)'>Экономика и бухгалтерский учет (по отраслям)</option>
                         </select>
+                        */}
                         <label className={styles.label}>Форма обучения:</label> 
                         <select name="form_education" id="filtersosochmod" onChange={ahandleSubmitmod}>
                             <option value='ЗАОЧНОЙ'>ЗАОЧНАЯ</option>

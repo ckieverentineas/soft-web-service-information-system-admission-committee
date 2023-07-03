@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Registrator from './registrator';
 import styles from '/styles/Home.module.css'
+import { Specialization } from '@prisma/client';
 export default function Abiturs() {
     const [dataman, setDataMan] = useState([])
     const [data, setData] = useState<any[]>([])
@@ -246,12 +247,25 @@ export default function Abiturs() {
             alert(`Вы отказались удалить абиттуриента ${id}`)
         }
     }
+    const [specializationsList, setSpecializationsList] = useState<Specialization[] | null>(null);
+    const hanleGetSpec = async () => {
+        const res = await fetch('/api/specializations');
+        const data = await res.json();
+        setSpecializationsList(data)
+    };
+    useEffect(() => {
+        hanleGetSpec()
+    }, []);
     function ListAbiturs() {
         if (show) {
             return (
                 <div>
                     <h2 className={styles.title}>Поданные заявления аббитуриентов:</h2>
                     <label className={styles.label}>Специальность:</label> 
+                        <select name="specialization_first" id="filters" onChange={ahandleSubmit}>
+                            { specializationsList?.map(specialization => ( <option key={specialization.id} value={specialization.name}>{specialization.name}</option> )) }
+                        </select>
+                        {/** 
                         <select name="specialization_first" id="filters" onChange={ahandleSubmit}>
                             <option value='Компьютерные системы и комплексы'>Компьютерные системы и комплексы</option>
                             <option value='Монтаж и эксплуатация оборудования и систем газоснабжения'>Монтаж и эксплуатация оборудования и систем газоснабжения</option>
@@ -270,7 +284,7 @@ export default function Abiturs() {
                             <option value='Мастер контрольно-измерительных приборов и автоматики'>Мастер контрольно-измерительных приборов и автоматики</option>
                             <option value='Лаборант-эколог'>Лаборант-эколог</option>
                             <option value='Техническое обслуживание и ремонт систем и агрегатов автомобилей'>Техническое обслуживание и ремонт систем и агрегатов автомобилей</option>
-                        </select>
+                        </select>*/}
                     <div className={styles.grid}>
                     {dataman.slice().reverse().map((key) => (
                         <div className={styles.card}>
@@ -284,9 +298,11 @@ export default function Abiturs() {
                             <div>
                                 <label>Желаемая специальность: {key['specialization_first']} </label><br/>
                                 <label>Запасная специальность {key['specialization_second']} </label><br/>
-                                <label>Общежитие: {key['house']} </label>
                                 <label>Поданные документы: {key['education_complete_type']} </label>
-                                <br/><label>Формы обучения: {key['form_education']} </label>
+                                <label>Образование: {key['education_complete_category']} </label>
+                                <br/><label>Общежитие: {key['house']} </label>
+                                <label>Формы обучения: {key['form_education']} </label>
+                                
                                 <label> Средняя оценка аттестата: {((parseInt(key.tree)*3+parseInt(key.four)*4+parseInt(key.five)*5)/(parseInt(key.tree)+parseInt(key.four)+parseInt(key.five))).toFixed(2)}</label><hr/>
                             </div>
                             <button onClick={() => Select(key['id'])}>Подрбонее</button>
