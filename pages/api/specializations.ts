@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // Создание или обновление специализации
   const { _method, id, name, form_education, form_education_pay, education_complete_category } = req.body;
-  console.log('%cMyProject%cline:8%c_method, id, name, form_education, form_education_pay', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(254, 67, 101);padding:3px;border-radius:2px', _method, id, name, form_education, form_education_pay)
+  //console.log('%cMyProject%cline:8%c_method, id, name, form_education, form_education_pay', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(254, 67, 101);padding:3px;border-radius:2px', _method, id, name, form_education, form_education_pay)
   if (req.method === 'GET') {
     // Получение списка специализаций
     const specializations = await prisma.specialization.findMany();
@@ -153,7 +153,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           form_education_pay: "финансируемые из средств краевого бюджета",
           education_complete_category: "ОСНОВНОЕ ОБЩЕЕ"
         },
-
+        {
+          name: "Оператор нефтепереработки",
+          form_education: "ОЧНОЙ",
+          form_education_pay: "финансируемые из средств краевого бюджета",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ"
+        },
+        {
+          name: "Наладчик компьютерных сетей",
+          form_education: "ОЧНОЙ",
+          form_education_pay: "финансируемые из средств краевого бюджета",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ"
+        },
+        {
+          name: "Техническое обслуживание и ремонт систем и агрегатов автомобилей",
+          form_education: "ОЧНОЙ",
+          form_education_pay: "финансируемые из средств краевого бюджета",
+          education_complete_category: "ОСНОВНОЕ ОБЩЕЕ,СРЕДНЕЕ ОБЩЕЕ"
+        },
       ]
       let ct = 0
       for (const i in data_init) {
