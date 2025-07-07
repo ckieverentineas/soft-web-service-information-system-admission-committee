@@ -25,6 +25,7 @@ model Passport {
   birthday_place String
   phone String
   gender String
+  svo String @default("НЕТ")
   adress_register String
   adress_fact String
   email String

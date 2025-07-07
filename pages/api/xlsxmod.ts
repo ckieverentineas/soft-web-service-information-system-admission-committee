@@ -21,6 +21,7 @@ export default async function handler(req: any, res: any) {
                 firstname: true,
                 name: true,
                 lastname: true,
+                svo: true,
                 tree:true,
                 four: true,
                 five: true,

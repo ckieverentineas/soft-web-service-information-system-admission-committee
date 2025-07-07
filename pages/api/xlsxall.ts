@@ -52,6 +52,7 @@ export default async function handler(req: any, res: any) {
                             firstname: true,
                             name: true,
                             lastname: true,
+                            svo: true,
                             tree:true,
                             four: true,
                             five: true,
@@ -68,6 +69,7 @@ export default async function handler(req: any, res: any) {
                             id: counter++,
                             fio: data[i].firstname + " " + data[i].name + " " + data[i].lastname,
                             aver: ((parseInt(data[i].tree)*3+parseInt(data[i].four)*4+parseInt(data[i].five)*5)/(parseInt(data[i].tree)+parseInt(data[i].four)+parseInt(data[i].five))).toFixed(2),
+                            svo: data[i].svo,
                             doc: data[i].education_complete_type,
                             house: data[i].house
                         });
@@ -83,6 +85,7 @@ export default async function handler(req: any, res: any) {
                             id: counter++,
                             fio: jsonArr[i].fio,
                             aver: jsonArr[i].aver,
+                            svo: jsonArr[i].svo,
                             doc: jsonArr[i].doc,
                             house: jsonArr[i].house
                         });
@@ -92,7 +95,7 @@ export default async function handler(req: any, res: any) {
                     xlsx.utils.book_append_sheet(WorkBook, WorkSheet, `${form_educ[fr].slice(0, 2)}_${educ[ed].slice(0, 2)}_${spec[sp].name}`.slice(0, 31));
 
                     /* fix headers */
-                    xlsx.utils.sheet_add_aoa(WorkSheet, [["№ п/п", "ФИО абитуриента", "ср. балл", "копия/оригинал", "В общежитии"]], { origin: "A1" });
+                    xlsx.utils.sheet_add_aoa(WorkSheet, [["№ п/п", "ФИО абитуриента", "ср. балл", "СВО", "копия/оригинал", "В общежитии"]], { origin: "A1" });
                 }
                 
             }

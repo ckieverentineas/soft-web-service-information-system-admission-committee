@@ -23,6 +23,7 @@ export default function Abiturs() {
         birthday_place: 'Место Рождения:',
         phone: 'Номер телефона:',
         gender: 'Пол:',
+		svo: 'СВО',
         adress_register: 'Адрес регистрации места жительства:',
         adress_fact: 'Фактический адрес места жительства:',
         email: 'e-mail:',
@@ -136,7 +137,7 @@ export default function Abiturs() {
             passport_number, passport_place, passport_date,
             firstname, name, lastname,
             birthday, birthday_place, phone,
-            gender, adress_register, adress_fact,
+            gender, svo, adress_register, adress_fact,
             email, language, specialization_first,
             specialization_second, form_education, form_education_pay,
             education_complete_name, education_complete_year, education_complete_category,
@@ -166,6 +167,7 @@ export default function Abiturs() {
             birthday_place: birthday_place.value,
             phone: phone.value,
             gender: gender.value,
+			svo: svo.value,
             adress_register: adress_register.value,
             adress_fact: adress_fact.value,
             email: email.value,
@@ -295,7 +297,7 @@ export default function Abiturs() {
                     <h2 className={styles.title}>
                         Поданные заявления аббитуриентов:
                         <label className={styles.card} title='Количество абитуриентов подавших заявления'>👤{counter}</label>
-                        <label className={styles.card} onClick={hanleCleared} title='Проверяльщик на то, есть ли абитуриенты с не установленными специфичными специальностями в качестве основной'>🕵️‍♀️</label>
+                        <label className={styles.card} onClick={hanleCleared} title='Проверяльщик на то, есть ли абитуриенты с не установленными специфичными специальностями в качестве основной'>Проверка</label>
                     </h2>
                     <label className={styles.label}>Специальность:</label> 
                         <select name="specialization_first" id="filters" onChange={ahandleSubmit}>
@@ -341,7 +343,7 @@ export default function Abiturs() {
                                 
                                 <label> Средняя оценка аттестата: {((parseInt(key.tree)*3+parseInt(key.four)*4+parseInt(key.five)*5)/(parseInt(key.tree)+parseInt(key.four)+parseInt(key.five))).toFixed(2)}</label><hr/>
                             </div>
-                            <button onClick={() => Select(key['id'])}>Подрбонее</button>
+                            <button onClick={() => Select(key['id'])}>Подробнее</button>
                             <button onClick={() => CreateDoc(key['id'])}>Сформировать заявление</button>
                             <a target="_blank" href={`./files/${key['id']}_${key['firstname']}_${key['name']}_${key['lastname']}.docx`} download>
                                 <Link href={`./files/${key['id']}_${key['firstname']}_${key['name']}_${key['lastname']}.docx`} target="_blank">

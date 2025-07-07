@@ -9,7 +9,7 @@ export default function Registrator() {
             passport_number, passport_place, passport_date,
             firstname, name, lastname,
             birthday, birthday_place, phone,
-            gender, adress_register, adress_fact,
+            gender, svo, adress_register, adress_fact,
             email, language, specialization_first,
             specialization_second, form_education, form_education_pay,
             education_complete_name, education_complete_year, education_complete_category,
@@ -38,6 +38,7 @@ export default function Registrator() {
             birthday_place: birthday_place.value,
             phone: phone.value,
             gender: gender.value,
+			svo: svo.value,
             adress_register: adress_register.value,
             adress_fact: adress_fact.value,
             email: email.value,
@@ -180,17 +181,29 @@ export default function Registrator() {
                         <input type="radio" name="gender" value="ЖЕНСКИЙ"/>
                         <label>Женский</label>
                     </fieldset>
+					<fieldset>
+                        <legend>Есть пометка СВО:</legend>
+                        <input type="radio" name="svo" value="ДА" required/>
+                        <label>Да</label>
+                        <input type="radio" name="svo" value="НЕТ"/>
+                        <label>Нет</label>
+                    </fieldset>
                     <li className={styles.formrow}>
                         <label className={styles.label}>Адрес регистрации места жительства:</label> 
                         <input type="text" name="adress_register" id="adr" placeholder="ИНДЕКС, ПОЛНЫЙ АДРЕС ПОСТОЯННОЙ РЕГИСТРАЦИИ, РАЙОН" autoComplete="off" required/>
                     </li>
-                    <button onClick={() => {
-                                                    const got = document.getElementById('adr')?.value
-                                                    console.log(got)
-                                                    document.getElementById('adr2')?.value = got
-                                                }
-                                                }>Нажмите, если адрес Регистрации совпадает с фактическим адресом
-                    </button>
+<button
+  onClick={() => {
+    const got = document.getElementById('adr')?.value;
+    console.log(got);
+    const adr2 = document.getElementById('adr2');
+    if (adr2) {
+      adr2.value = got;
+    }
+  }}
+>
+  Нажмите, если адрес Регистрации совпадает с фактическим адресом
+</button>
                     <li className={styles.formrow}>
                         <label className={styles.label}>Фактический адрес места жительства:</label>
                         <input type="text" name="adress_fact" id="adr2" placeholder="ИНДЕКС, ПОЛНЫЙ АДРЕС МЕСТОЖИТЕЛЬСТВА, РАЙОН" autoComplete="off"/>

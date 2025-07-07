@@ -31,6 +31,7 @@ export default async function handler(req: any, res: any) {
             birthday_place: user?.birthday_place.toUpperCase(),
             phone: user?.phone.toUpperCase(),
             gender: user?.gender.toUpperCase(),
+			svo: user?.svo.toUpperCase(),
             adress_register: user?.adress_register.toUpperCase(),
             adress_fact: user?.adress_fact.toUpperCase(),
             email: user?.email.toUpperCase(),

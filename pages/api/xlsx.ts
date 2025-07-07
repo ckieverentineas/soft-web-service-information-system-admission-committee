@@ -20,6 +20,7 @@ export default async function handler(req: any, res: any) {
                 firstname: true,
                 name: true,
                 lastname: true,
+                svo: true,
                 tree:true,
                 four: true,
                 five: true,
@@ -36,6 +37,7 @@ export default async function handler(req: any, res: any) {
                 id: counter++,
                 fio: data[i].firstname + " " + data[i].name + " " + data[i].lastname,
                 aver: ((parseInt(data[i].tree)*3+parseInt(data[i].four)*4+parseInt(data[i].five)*5)/(parseInt(data[i].tree)+parseInt(data[i].four)+parseInt(data[i].five))).toFixed(2),
+                svo: data[i].svo,
                 doc: data[i].education_complete_type,
             });
         }//return a.сумма.slice(0, -1) - b.сумма.slice(0, -1);
@@ -47,6 +49,7 @@ export default async function handler(req: any, res: any) {
                 id: counter++,
                 fio: jsonArr[i].fio,
                 aver: jsonArr[i].aver,
+                svo: jsonArr[i].svo,
                 doc: jsonArr[i].doc,
             });
         }
@@ -55,7 +58,7 @@ export default async function handler(req: any, res: any) {
         xlsx.utils.book_append_sheet(WorkBook, WorkSheet, "Dates");
 
         /* fix headers */
-        xlsx.utils.sheet_add_aoa(WorkSheet, [["№ п/п", "ФИО абитуриента", "ср. балл", "копия/оригинал"]], { origin: "A1" });
+        xlsx.utils.sheet_add_aoa(WorkSheet, [["№ п/п", "ФИО абитуриента", "ср. балл", "СВО", "копия/оригинал"]], { origin: "A1" });
 
         /* create an XLSX file and try to save to Presidents.xlsx */
         console.log(`Создание таблицы... ./public/tables/${specialization_first}_${form_education}.xlsx`)
